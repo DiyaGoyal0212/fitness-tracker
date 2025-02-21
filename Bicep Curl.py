@@ -1,52 +1,59 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+import textwrap
 
-# Calculate angle between three points
+# Function to calculate angle
 def calculate_angle(a, b, c):
-    a = np.array(a)
-    b = np.array(b)
-    c = np.array(c)
+    a, b, c = np.array(a), np.array(b), np.array(c)
+    radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
+    angle = np.abs(radians * 180.0 / np.pi)
+    return 360 - angle if angle > 180 else angle
 
-    radians = np.arctan2(c[1]-b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
-    angle = np.abs(radians*180.0/np.pi)
-
-    if angle > 180.0:
-        angle = 360 - angle
-
-    return angle
-
-# Initialize MediaPipe modules
+# MediaPipe Pose setup
 mp_pose = mp.solutions.pose
 mp_drawing = mp.solutions.drawing_utils
 
 cap = cv2.VideoCapture(0)
 
-# Curl counter variables
-counter = 0 
-stage = None
+# Variables
+counter = 0  
+stage = None  
+exercise = "Bicep Curls"
 
-# Setup MediaPipe Pose instance
+# UI Colors
+bg_color = (34, 177, 76)  # Green
+separator_color = (169, 169, 169)  # Grey
+text_color = (255, 255, 255)  # White
+
+# MediaPipe Pose instance
 with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
     while cap.isOpened():
         ret, frame = cap.read()
+        if not ret:
+            break
 
-        # Recolor image to RGB
+        frame = cv2.flip(frame, 1)
+        h, w, _ = frame.shape
+
+        # Increase panel width
+        panel_width = int(w * 0.6)
+        right_panel = np.full((h, panel_width, 3), bg_color, dtype=np.uint8)
+
+        # Convert for MediaPipe
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image.flags.writeable = False
-
-        # Process the image and get the pose results
         results = pose.process(image)
-
-        # Recolor back to BGR
         image.flags.writeable = True
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-        # Extract pose landmarks and calculate angle
+        # Default feedback & improvement
+        feedback = "Ensure proper posture."
+        improvement = "Keep your back straight and engage your core."
+
+        # Pose estimation
         try:
             landmarks = results.pose_landmarks.landmark
-
-            # Get coordinates of landmarks
             shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
             elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
             wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
@@ -54,34 +61,83 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             # Calculate angle
             angle = calculate_angle(shoulder, elbow, wrist)
 
-            # Visualize the angle on the image
-            cv2.putText(image, str(angle), tuple(np.multiply(elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-
-            # Curl counter logic
+            # Rep counting logic
             if angle > 160:
                 stage = "down"
-            if angle < 30 and stage == 'down':
+            elif angle < 30 and stage == "down":
                 stage = "up"
                 counter += 1
-                print(counter)
+                feedback = "Great form! Keep pushing!"
+                improvement = "Remember to breathe properly."
+            else:
+                feedback = "Make sure to fully extend your arms."
+                improvement = "Don't rush, maintain a steady pace."
 
+            # Additional feedback based on posture
+            if angle < 20:
+                feedback = "Too much bending! Extend your arms more."
+                improvement = "Try to keep your movements controlled."
+            elif angle > 170:
+                feedback = "You're overextending. Avoid locking your joints."
+                improvement = "Keep a slight bend at the top."
+        
         except:
-            pass
+            feedback = "Ensure full visibility of your arm."
+            improvement = "Adjust your camera or position."
 
-        # Render curl counter and detections on the image
-        cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-        cv2.putText(image, 'REPS', (15,12), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, str(counter), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-        cv2.putText(image, 'STAGE', (65,12), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-        cv2.putText(image, stage, (60,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+        # Draw landmarks
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+                                  mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2),
+                                  mp_drawing.DrawingSpec(color=(0, 255, 255), thickness=2, circle_radius=2))
 
-        # Draw the landmarks and connections
-        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS, mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2))
+        # UI Layout
+        section_height = h // 4
 
-        # Display the image
-        cv2.imshow('Mediapipe Feed', image)
+        # Grey separators
+        right_panel[section_height - 2:section_height + 2] = separator_color
+        right_panel[2 * section_height - 2:2 * section_height + 2] = separator_color
+        right_panel[3 * section_height - 2:3 * section_height + 2] = separator_color
 
-        # Quit on 'q' key press
+        # Text styling
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        font_scale = 0.7  
+        font_thickness = 2
+
+        # Function to center text in a section
+        def put_centered_text(panel, text, y, font_scale=0.7):
+            text_size = cv2.getTextSize(text, font, font_scale, font_thickness)[0]
+            text_x = (panel_width - text_size[0]) // 2
+            cv2.putText(panel, text, (text_x, y), font, font_scale, text_color, font_thickness, cv2.LINE_AA)
+
+        # Exercise Name
+        put_centered_text(right_panel, exercise.upper(), section_height // 2, font_scale=1.2)
+
+        # Rep Count
+        put_centered_text(right_panel, f'Reps: {counter}', section_height + (section_height // 2), font_scale=1.2)
+
+        # Feedback Section
+        put_centered_text(right_panel, "Feedback:", 2 * section_height + 40, font_scale=0.9)
+        wrapped_feedback = textwrap.wrap(feedback, width=40)
+        y_text = 2 * section_height + 80
+        for line in wrapped_feedback:
+            put_centered_text(right_panel, line, y_text, font_scale=0.7)
+            y_text += 30
+
+        # Improvements Section
+        put_centered_text(right_panel, "Improvements:", 3 * section_height + 40, font_scale=0.9)
+        wrapped_improvement = textwrap.wrap(improvement, width=40)
+        y_text = 3 * section_height + 80
+        for line in wrapped_improvement:
+            put_centered_text(right_panel, line, y_text, font_scale=0.7)
+            y_text += 30
+
+        # Combine video and UI
+        combined_view = np.hstack((image, right_panel))
+
+        # Show the window
+        cv2.imshow('Workout Tracker', combined_view)
+
+        # Quit on 'q'
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
 

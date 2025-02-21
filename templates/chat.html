@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Chatbot</title>
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='chat.css') }}"
+/>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <!-- Gradient Overlay -->
+        <div class="overlay"></div>
+
+        <!-- Header -->
+        <header class="header">
+            <h1>Get Medical Answers Instantly</h1>
+            <p>AI-powered responses tailored to your medical queries.</p>
+        </header>
+
+        <!-- Input Section -->
+        <section class="input-section">
+            <h2>Ask a Question</h2>
+            <input type="text" id="question" placeholder="Write your medical query here...">
+            <button id="generateBtn">Generate Answer</button>
+        </section>
+
+        <!-- Answer Section -->
+        <section id="answerSection" class="answer-section hidden">
+            <h2>AI-Powered Answer:</h2>
+            <p id="answerText"></p>
+        </section>
+    </div>
+
+</body>
+</html>

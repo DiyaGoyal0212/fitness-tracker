@@ -1,0 +1,104 @@
+/* -------------------- Login Page Enhancements -------------------- */
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-box {
+    width: 320px; /* Set a fixed width */
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.login-box h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.login-box input {
+    width: 90%; /* Matches button width */
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.login-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.login-box input:focus {
+    border: 2px solid #7dce13;
+    box-shadow: 0 0 10px rgba(125, 206, 19, 0.5);
+}
+
+.login-box button {
+    width: 90%; /* Now matches input width */
+    padding: 12px;
+    background: #7dce13;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-box button:hover {
+    background: #6bb30f;
+    transform: scale(1.05);
+}
+
+.login-box p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.login-box p a {
+    color: #7dce13;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-box p a:hover {
+    color: #5ea20e;
+}
+
+/* -------------------- Animations -------------------- */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* -------------------- Responsive Design -------------------- */
+@media (max-width: 450px) {
+    .login-box {
+        width: 90%;
+        padding: 1.5rem;
+    }
+}

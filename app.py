@@ -51,6 +51,8 @@ def signup():
 
     return render_template("signup.html")
 
+
+
 # Logout Route
 @app.route("/logout")
 def logout():
@@ -75,6 +77,21 @@ def start_exercise(exercise):
         return redirect(url_for("home"))  # Redirect back to home
 
     return "Exercise not found", 404
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+@app.route('/chat')
+def chat():
+    return render_template('chat.html') 
 
 
 if __name__ == "__main__":

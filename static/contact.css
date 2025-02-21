@@ -1,0 +1,132 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+/* this is contact form styling */
+
+body {
+    background: linear-gradient(135deg, #0f0f10, #1a1a2e);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.contact-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 90%;
+    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.contact-left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    width: 50%;
+}
+
+.contact-left-title h2 {
+    font-weight: 600;
+    font-size: 40px;
+    color: #7dce13;
+    margin-bottom: 5px;
+}
+
+.contact-left-title hr {
+    border: none;
+    width: 120px;
+    height: 4px;
+    background-color: #7dce13;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.contact-inputs {
+    width: 100%;
+    max-width: 400px;
+    height: 50px;
+    border: none;
+    outline: none;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    transition: 0.3s;
+}
+
+.contact-left textarea {
+    height: 120px;
+    padding-top: 15px;
+    border-radius: 15px;
+    resize: none;
+}
+
+.contact-inputs::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.contact-inputs:focus {
+    border: 2px solid #7dce13;
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.contact-left button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    gap: 10px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #7dce13, #6ab00d);
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 10px #7dce13;
+}
+
+.contact-left button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #7dce13;
+}
+
+.contact-left button img {
+    height: 15px;
+}
+
+.contact-right img {
+    width: 400px;
+    filter: drop-shadow(0 0 10px #7dce13);
+}
+
+@media (max-width: 900px) {
+    .contact-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contact-left,
+    .contact-right {
+        width: 100%;
+    }
+
+    .contact-right img {
+        width: 300px;
+    }
+}

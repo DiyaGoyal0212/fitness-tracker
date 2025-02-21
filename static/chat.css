@@ -1,0 +1,105 @@
+/* Global Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Background */
+body {
+    background: url('ai.gif') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0, 0, 80, 0.7), rgba(80, 0, 80, 0.4), rgba(200, 0, 100, 0.7));
+    z-index: 1;
+}
+
+/* Container */
+.container {
+    position: relative;
+    z-index: 2;
+    color: white;
+    width: 90%;
+    max-width: 600px;
+}
+
+/* Header */
+.header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.header p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* Input Section */
+.input-section {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.input-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.input-section input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.input-section button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.input-section button:hover {
+    background: darkblue;
+}
+
+/* Answer Section */
+.answer-section {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+
+.answer-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* Hide answer section by default */
+.hidden {
+    display: none;
+}

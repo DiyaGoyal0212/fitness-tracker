@@ -1,109 +1,122 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-import numpy as np
-def calculate_angle(a,b,c):
-    a = np.array(a) # First
-    b = np.array(b) # Mid
-    c = np.array(c) # End
-    
-    radians = np.arctan2(c[1]-b[1], c[0]-b[0]) - np.arctan2(a[1]-b[1], a[0]-b[0])
-    angle = np.abs(radians*180.0/np.pi)
-    
-    if angle >180.0:
-        angle = 360-angle
-        
-    return angle 
-mp_drawing = mp.solutions.drawing_utils
-mp_pose = mp.solutions.pose
+import textwrap
 
+def calculate_angle(a, b, c):
+    a, b, c = np.array(a), np.array(b), np.array(c)
+    radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
+    angle = np.abs(radians * 180.0 / np.pi)
+    return 360 - angle if angle > 180 else angle
 
-
-# Initialize MediaPipe Pose
 mp_pose = mp.solutions.pose
 mp_drawing = mp.solutions.drawing_utils
-
-pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-
-# Start streaming video from webcam
 cap = cv2.VideoCapture(0)
 
-# Push-up counter variables
-counter = 0
-stage = None
+# Variables
+counter = 0  
+stage = None  
+feedback = "Keep your back straight."
+improvement = "Maintain steady movement."
 max_angle = 160
 min_angle = 30
+shoulder_threshold = 0.05  # Minimum movement to consider a valid push-up
+wrist_threshold = 0.02  # Wrist movement allowance
 
-while cap.isOpened():
-    ret, frame = cap.read()
+prev_shoulder_y = None
+prev_wrist_x = None
+prev_wrist_y = None
 
-    # Recolor image to RGB
-    image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    image.flags.writeable = False
+with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        frame = cv2.flip(frame, 1)
+        h, w, _ = frame.shape
+        panel_width = int(w * 0.4)
+        right_panel = np.full((h, panel_width, 3), (34, 177, 76), dtype=np.uint8)
+        
+        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        image.flags.writeable = False
+        results = pose.process(image)
+        image.flags.writeable = True
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        
+        try:
+            landmarks = results.pose_landmarks.landmark
+            shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x, landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
+            elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
+            wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+            
+            angle = calculate_angle(shoulder, elbow, wrist)
 
-    # Make detection
-    results = pose.process(image)
+            # Track shoulder movement
+            shoulder_y = shoulder[1]  # Y-coordinate of the shoulder
+            wrist_x, wrist_y = wrist[0], wrist[1]  # X, Y coordinates of the wrist
 
-    # Recolor back to BGR
-    image.flags.writeable = True
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            if prev_shoulder_y is not None and prev_wrist_x is not None and prev_wrist_y is not None:
+                shoulder_movement = abs(shoulder_y - prev_shoulder_y)
+                wrist_movement = abs(wrist_x - prev_wrist_x) + abs(wrist_y - prev_wrist_y)
 
-    # Extract landmarks
-    try:
-        landmarks = results.pose_landmarks.landmark
+                if angle > max_angle:
+                    stage = "down"
+                elif angle < min_angle and stage == "down":
+                    if 25 < angle < 35 and shoulder_movement > shoulder_threshold and wrist_movement < wrist_threshold:
+                        counter += 1
+                        stage = "up"
+                        feedback = "Great form! Keep it up."
+                        improvement = "Maintain controlled movement."
+                    else:
+                        feedback = "Incorrect movement! Ensure full range of motion."
+                        improvement = "Lower your body properly and avoid shifting hands."
 
-        # Get coordinates
-        shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-        elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-        wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+            prev_shoulder_y = shoulder_y
+            prev_wrist_x, prev_wrist_y = wrist_x, wrist_y
 
-        # Calculate angle
-        angle = calculate_angle(shoulder, elbow, wrist)
+        except:
+            feedback = "Ensure full visibility of your arm."
+            improvement = "Adjust your camera position."
+        
+        mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+                                  mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2),
+                                  mp_drawing.DrawingSpec(color=(0, 255, 255), thickness=2, circle_radius=2))
+        
+        def put_centered_text(panel, text, y, font_scale=0.6, max_width=panel_width - 20):
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            text_size = cv2.getTextSize(text, font, font_scale, 2)[0]
+            
+            # If text is too long, reduce font size dynamically
+            while text_size[0] > max_width and font_scale > 0.4:
+                font_scale -= 0.05
+                text_size = cv2.getTextSize(text, font, font_scale, 2)[0]
+            
+            text_x = (panel_width - text_size[0]) // 2
+            cv2.putText(panel, text, (text_x, y), font, font_scale, (255, 255, 255), 2, cv2.LINE_AA)
 
-        # Visualize angle
-        cv2.putText(image, str(angle), 
-                   tuple(np.multiply(elbow, [640, 480]).astype(int)), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+        # Ensuring exercise name fits properly
+        put_centered_text(right_panel, "Push-Up Counter", 40, font_scale=1, max_width=panel_width - 20)
 
-        # Push-up counter logic
-        if angle > max_angle:
-            stage = "down"
-        if angle < min_angle and stage == 'down':
-            stage = "up"
-            counter += 1
-            print(counter)
-
-    except:
-        pass
-
-    # Render push-up counter
-    # Setup status box
-    cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
-
-    # Reps data
-    cv2.putText(image, 'COUNTER', (15,12), 
-                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-    cv2.putText(image, str(counter), 
-                (10,60), 
-                cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-
-    # Stage data
-    cv2.putText(image, 'STAGE', (65,12), 
-                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-    cv2.putText(image, stage, 
-                (60,60), 
-                cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-
-    # Render detections
-    mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                            mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
-                            mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
-                             )               
-
-    cv2.imshow('Mediapipe Feed', image)
-
-    if cv2.waitKey(10) & 0xFF == ord('q'):
-        break
+        put_centered_text(right_panel, f'Reps: {counter}', 100, font_scale=1)
+        put_centered_text(right_panel, "Feedback:", 180, font_scale=0.8)
+        
+        y_text = 220
+        for line in textwrap.wrap(feedback, width=25):
+            put_centered_text(right_panel, line, y_text)
+            y_text += 30
+        
+        put_centered_text(right_panel, "Improvements:", 350, font_scale=0.8)
+        y_text = 380
+        for line in textwrap.wrap(improvement, width=25):
+            put_centered_text(right_panel, line, y_text)
+            y_text += 30
+        
+        combined_view = np.hstack((image, right_panel))
+        cv2.imshow('Push-Up Tracker', combined_view)
+        
+        if cv2.waitKey(10) & 0xFF == ord('q'):
+            break
 
 cap.release()
 cv2.destroyAllWindows()

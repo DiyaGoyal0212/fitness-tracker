@@ -1,66 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Fitty - Home</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
-  </head>
-  <body>
-    <nav>
-      <h2>Fitty</h2>
-      <ul>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-        <li><a href="{{ url_for('about') }}">About</a></li>
-      </ul>
-    </nav>
-
-    <header>
-      <h1>Get Fit, Get Strong, Get Healthy!</h1>
-      <p>Welcome to Fitty - your AI-powered fitness companion.</p>
-      <a href="#" class="btn">Start Now</a>
-      <a href="#" class="btn secondary">Download App</a>
-    </header>
-
-    <section class="workouts">
-      <h2>Choose Your Workout</h2>
-      <div class="exercise-list">
-        <div class="exercise">
-          <h3>Pushups</h3>
-          <p>Improve your upper body strength.</p>
-          <a href="{{ url_for('start_exercise', exercise='pushups') }}"
-            >Start</a
-          >
-        </div>
-        <div class="exercise">
-          <h3>Squats</h3>
-          <p>Strengthen your legs and core.</p>
-          <a href="{{ url_for('start_exercise', exercise='squats') }}">Start</a>
-        </div>
-        <div class="exercise">
-          <h3>Bicep Curls</h3>
-          <p>Boost your arm muscle growth.</p>
-          <a href="{{ url_for('start_exercise', exercise='bicep_curls') }}"
-            >Start</a
-          >
-        </div>
-        <div class="exercise">
-          <h3>Lunges</h3>
-          <p>Improve your lower body endurance.</p>
-          <a href="{{ url_for('start_exercise', exercise='lunges') }}">Start</a>
-        </div>
-        <div class="exercise">
-          <h3>Sit-ups</h3>
-          <p>Enhance your core strength.</p>
-          <a href="{{ url_for('start_exercise', exercise='situps') }}">Start</a>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <p>© 2025 Fitty. All Rights Reserved.</p>
-    </footer>
-  </body>
+	<head>
+		<title>Fitty - Home</title>
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='styles.css') }}"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<nav>
+			<h2>Fitty</h2>
+			<ul>
+				<li><a href="{{ url_for('home') }}">Home</a></li>
+				<li><a href="{{ url_for('logout') }}">Logout</a></li>
+				<li><a href="{{ url_for('about') }}">About</a></li>
+			</ul>
+		</nav>
+		<header>
+			<h1>Get Fit, Get Strong, Get Healthy!</h1>
+			<p>Welcome to Fitty - your AI-powered fitness companion.</p>
+			<a href="#" class="btn">Start Now</a>
+			<a href="#" class="btn secondary">Download App</a>
+		</header>
+		<section class="workouts">
+			<h2>Choose Your Workout</h2>
+			<div class="exercise-list">
+				<div class="exercise">
+					<h3>Pushups</h3>
+					<p>Improve your upper body strength.</p>
+					<a href="{{ url_for('start_exercise', exercise='pushups') }}"
+						>Start</a
+					>
+				</div>
+				<div class="exercise">
+					<h3>Squats</h3>
+					<p>Strengthen your legs and core.</p>
+					<a href="{{ url_for('start_exercise', exercise='squats') }}">Start</a>
+				</div>
+				<div class="exercise">
+					<h3>Bicep Curls</h3>
+					<p>Boost your arm muscle growth.</p>
+					<a href="{{ url_for('start_exercise', exercise='bicep_curls') }}"
+						>Start</a
+					>
+				</div>
+				<div class="exercise">
+					<h3>Lunges</h3>
+					<p>Improve your lower body endurance.</p>
+					<a href="{{ url_for('start_exercise', exercise='lunges') }}">Start</a>
+				</div>
+				<div class="exercise">
+					<h3>Sit-ups</h3>
+					<p>Enhance your core strength.</p>
+					<a href="{{ url_for('start_exercise', exercise='situps') }}">Start</a>
+				</div>
+			</div>
+		</section>
+		<footer>
+			<p>© 2025 Fitty. All Rights Reserved.</p>
+		</footer>
+	</body>
 </html>

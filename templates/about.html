@@ -1,64 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About Us - FLEX-IT-OUT</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
-</head>
-<body>
-
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='about.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <h2>Fitty</h2>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+    </nav>
     <!-- ABOUT US -->
     <div class="about-container">
-        <div class="about-overlay"></div>
-        <div class="about-content">
-            <h1>ABOUT US</h1>
-            <p>Balancing fitness and a busy work schedule is a universal challenge. Our platform promotes physical activities in an engaging, tech-powered way.</p>
-        </div>
-        <div class="about-right">
-            <ul>
-                <li>High Quality & Results Focused</li>
-                <li>Your Satisfaction is Guaranteed</li>
-                <li>Affordable Pricing</li>
-                <li>10+ Years of Experience</li>
-            </ul>
-        </div>
+      <div class="about-overlay"></div>
+      <div class="about-content">
+        <h1>ABOUT US</h1>
+        <p>
+          Balancing fitness and a busy work schedule is a universal challenge.
+          Our platform promotes physical activities in an engaging, tech-powered
+          way.
+        </p>
+      </div>
+      <div class="about-right">
+        <ul>
+          <li>High Quality & Results Focused</li>
+          <li>Your Satisfaction is Guaranteed</li>
+          <li>Affordable Pricing</li>
+          <li>10+ Years of Experience</li>
+        </ul>
+      </div>
     </div>
 
     <!-- MISSION & VISION -->
     <div class="mission">
-        <h2>Our Mission & Vision</h2>
-        <p>We aim to make fitness fun, interactive, and accessible for everyone through cutting-edge technology.</p>
+      <h2>Our Mission & Vision</h2>
+      <p>
+        We aim to make fitness fun, interactive, and accessible for everyone
+        through cutting-edge technology.
+      </p>
     </div>
 
     <!-- CLIENT TESTIMONIALS -->
     <div class="testimonials">
-        <h2>What Our Customers Say</h2>
-        <div class="testimonial-cards">
-            <div class="testimonial">
-                <p>"This platform changed my fitness journey!"</p>
-                <h3>- Sarah L.</h3>
-            </div>
-            <div class="testimonial">
-                <p>"Highly recommend for anyone serious about fitness."</p>
-                <h3>- Mark R.</h3>
-            </div>
+      <h2>What Our Customers Say</h2>
+      <div class="testimonial-cards">
+        <div class="testimonial">
+          <p>"This platform changed my fitness journey!"</p>
+          <h3>- Sarah L.</h3>
         </div>
+        <div class="testimonial">
+          <p>"Highly recommend for anyone serious about fitness."</p>
+          <h3>- Mark R.</h3>
+        </div>
+      </div>
     </div>
 
     <!-- OUR ACHIEVEMENTS -->
     <div class="achievements">
-        <h2>Our Achievements</h2>
-        <div class="achievement-grid">
-            <div class="achievement">10K+ Happy Users</div>
-            <div class="achievement">5-Star Ratings</div>
-            <div class="achievement">Featured in Forbes</div>
-        </div>
+      <h2>Our Achievements</h2>
+      <div class="achievement-grid">
+        <div class="achievement">10K+ Happy Users</div>
+        <div class="achievement">5-Star Ratings</div>
+        <div class="achievement">Featured in Forbes</div>
+      </div>
     </div>
 
     <footer>
-        <p>© 2025 Fitty. All Rights Reserved.</p>
+      <p>© 2025 Fitty. All Rights Reserved.</p>
     </footer>
-
-</body>
+  </body>
 </html>

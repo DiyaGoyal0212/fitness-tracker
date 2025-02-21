@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0d1117;
+    color: white;
+    text-align: center;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: #161b22;
+}
+nav ul {
+    list-style: none;
+}
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+.btn {
+    background: #ff7b00;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+}
+.btn.secondary {
+    background: #005eff;
+}
+.workouts {
+    margin: 20px auto;
+    text-align: left;
+    width: 80%;
+}
+.exercise-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.exercise {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+}

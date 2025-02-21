@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='contact.css') }}">
+</head>
+<body>
+    <div class="contact-container">
+        <form action="https://api.web3forms.com/submit" method="POST" class="contact-left">
+            <div class="contact-left-title">
+                <h2>Get in Touch</h2>
+                <hr>
+            </div>
+            <input type="hidden" name="access_key" value="858a6a81-3b97-4b1f-bd1c-78f99fb07f1b">
+            <input type="text" name="botcheck" class="hidden" style="display: none;">
+            <input type="hidden" name="g-recaptcha-response">
+
+            <input type="text" name="name" placeholder="Your Name" class="contact-inputs" required>
+            <input type="email" name="email" placeholder="Your Email" class="contact-inputs" required>
+            <textarea name="message" placeholder="Your Message" class="contact-inputs"></textarea>
+            <button type="submit">Submit<img src="../static/images/arrow_icon.png"> </button>
+        </form>
+        <div class="contact-right">
+            <img src="../static/images/right_img.png" alt="">
+        </div>
+    </div>
+</body>
+</html>

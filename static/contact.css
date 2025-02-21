@@ -38,7 +38,7 @@ body {
 .contact-left-title h2 {
     font-weight: 600;
     font-size: 40px;
-    color: #4db5ff;
+    color: #7dce13;
     margin-bottom: 5px;
 }
 
@@ -46,7 +46,7 @@ body {
     border: none;
     width: 120px;
     height: 4px;
-    background-color: #4db5ff;
+    background-color: #7dce13;
     border-radius: 10px;
     margin-bottom: 20px;
 }
@@ -78,7 +78,7 @@ body {
 }
 
 .contact-inputs:focus {
-    border: 2px solid #4db5ff;
+    border: 2px solid #7dce13;
     background: rgba(255, 255, 255, 0.15);
     transform: scale(1.05);
 }
@@ -94,15 +94,15 @@ body {
     gap: 10px;
     border: none;
     border-radius: 50px;
-    background: linear-gradient(90deg, #4db5ff, #3b82f6);
+    background: linear-gradient(90deg, #7dce13, #6ab00d);
     cursor: pointer;
     transition: 0.3s;
-    box-shadow: 0 0 10px #4db5ff;
+    box-shadow: 0 0 10px #7dce13;
 }
 
 .contact-left button:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 20px #4db5ff;
+    box-shadow: 0 0 20px #7dce13;
 }
 
 .contact-left button img {
@@ -111,7 +111,7 @@ body {
 
 .contact-right img {
     width: 400px;
-    filter: drop-shadow(0 0 10px #4db5ff);
+    filter: drop-shadow(0 0 10px #7dce13);
 }
 
 @media (max-width: 900px) {

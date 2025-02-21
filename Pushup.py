@@ -36,7 +36,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
         frame = cv2.flip(frame, 1)
         h, w, _ = frame.shape
         panel_width = int(w * 0.4)
-        right_panel = np.full((h, panel_width, 3), (34, 177, 76), dtype=np.uint8)
+        right_panel = np.full((h, panel_width, 3), (0, 0, 0), dtype=np.uint8)
         
         image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image.flags.writeable = False

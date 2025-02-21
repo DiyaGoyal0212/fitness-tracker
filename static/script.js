@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY_HERE`,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyCXT00_x4f9pGiGPZ7B-oD0b5AiLkyWKOA`,
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -41,6 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
         } finally {
             generateBtn.innerText = "Generate Answer";
             generateBtn.disabled = false;
+        }
+    });
+
+    // ✅ Add an event listener to handle "Enter" key press
+    questionInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            generateBtn.click();
         }
     });
 });

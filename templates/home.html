@@ -30,6 +30,10 @@
 			<h2>Choose Your Workout</h2>
 			<div class="exercise-list">
 				<div class="exercise">
+					<img
+						src="{{ url_for('static', filename='images/pushup.jpg') }}"
+						alt="Pushups Exercise"
+					/>
 					<h3>Pushups</h3>
 					<p>Improve your upper body strength.</p>
 					<a href="{{ url_for('start_exercise', exercise='pushups') }}"
@@ -37,11 +41,19 @@
 					>
 				</div>
 				<div class="exercise">
+					<img
+						src="{{ url_for('static', filename='images/squat.jpg') }}"
+						alt="Squats Exercise"
+					/>
 					<h3>Squats</h3>
 					<p>Strengthen your legs and core.</p>
 					<a href="{{ url_for('start_exercise', exercise='squats') }}">Start</a>
 				</div>
 				<div class="exercise">
+					<img
+						src="{{ url_for('static', filename='images/bicep curl.jpg') }}"
+						alt="Bicep Curls Exercise"
+					/>
 					<h3>Bicep Curls</h3>
 					<p>Boost your arm muscle growth.</p>
 					<a href="{{ url_for('start_exercise', exercise='bicep_curls') }}"
@@ -49,19 +61,96 @@
 					>
 				</div>
 				<div class="exercise">
+					<img
+						src="{{ url_for('static', filename='images/Lunges.jpg') }}"
+						alt="Lunges Exercise"
+					/>
 					<h3>Lunges</h3>
 					<p>Improve your lower body endurance.</p>
 					<a href="{{ url_for('start_exercise', exercise='lunges') }}">Start</a>
 				</div>
 				<div class="exercise">
+					<img
+						src="{{ url_for('static', filename='images/sit ups.jpg') }}"
+						alt="Sit-ups Exercise"
+					/>
 					<h3>Sit-ups</h3>
 					<p>Enhance your core strength.</p>
 					<a href="{{ url_for('start_exercise', exercise='situps') }}">Start</a>
 				</div>
 			</div>
 		</section>
-		<footer>
-			<p>© 2025 Fitty. All Rights Reserved.</p>
+		<!-- Testimonial Section -->
+		<section class="testimonial-section">
+			<div class="testimonial-container">
+				<div class="testimonial-text">
+					<h2>What Our Member Say About Us?</h2>
+					<div class="customer-info">
+						<img src="customer1.jpg" alt="Customer 1" />
+						<img src="customer2.jpg" alt="Customer 2" />
+						<img src="customer3.jpg" alt="Customer 3" />
+						<p>10K+ Satisfied Customer</p>
+					</div>
+				</div>
+
+				<div class="testimonial-card">
+					<div class="stars">★★★★★</div>
+					<p>
+						"Join this fitness member, the best choice that I've made. They're
+						very professional and give you suggestions about what food and
+						nutrition you can eat."
+					</p>
+					<div class="testimonial-author">
+						<img src="jonathan.jpg" alt="Jonathan Edward" />
+						<div>
+							<strong>Jonathan Edward</strong>
+							<p>Office Worker</p>
+						</div>
+					</div>
+					<div class="testimonial-nav">
+						<span class="dot active"></span>
+						<span class="dot"></span>
+						<span class="dot"></span>
+						<button class="next-btn">➡</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer Section -->
+		<footer class="footer">
+			<div class="footer-container">
+				<div class="footer-logo">
+					<h2>FITTY</h2>
+				</div>
+				<div class="footer-info">
+					<div class="contact">
+						<h3>Contact Us</h3>
+						<p>hello@pulse.com</p>
+						<p>+907 683 8196</p>
+					</div>
+					<div class="location">
+						<h3>Our Location</h3>
+						<p>
+							<strong>Hawaii</strong><br />828 Timbercrest Road, Healy City, AK
+							99743
+						</p>
+						<p>
+							<strong>New York</strong><br />828 Timbercrest Road, Healy City,
+							AK 99743
+						</p>
+					</div>
+					<div class="hours">
+						<h3>Opening Hours</h3>
+						<p><strong>Monday-Friday</strong><br />08:00 - 22:00</p>
+						<p><strong>Weekends</strong><br />10:00 - 21:00</p>
+					</div>
+				</div>
+			</div>
+			<p class="copyright">© Pulse Fitness. All Rights Reserved.</p>
 		</footer>
+    <script>
+      (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="8z3sWNv0bta3dsebyKuHI";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+      </script>
 	</body>
 </html>
